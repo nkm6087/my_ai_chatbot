@@ -8,7 +8,7 @@ from streamlit_mic_recorder import mic_recorder
 
 # -------------------- 페이지 설정 --------------------
 st.set_page_config(
-    page_title="업그레이드 AI 비서",
+    page_title="AI 도우미",
     page_icon="🚀",
     layout="wide"
 )
@@ -81,7 +81,7 @@ try:
     if 'api_key' in st.session_state and st.session_state.api_key:
         if "model" not in st.session_state or st.session_state.system_prompt != system_prompt:
             st.session_state.system_prompt = system_prompt
-            st.session_state.model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=system_prompt)
+            st.session_state.model = genai.GenerativeModel('gemini-2.5-flash', system_instruction=system_prompt)
             st.session_state.messages = []
 except Exception as e:
     st.error(f"모델 초기화 오류: {e}")
@@ -108,7 +108,7 @@ if audio_data:
                     f.write(audio_data['bytes'])
                 
                 audio_file = genai.upload_file(path=audio_path)
-                response = genai.GenerativeModel('gemini-1.5-flash').generate_content(
+                response = genai.GenerativeModel('gemini-2.5-flash').generate_content(
                     ["이 오디오 파일의 내용을 텍스트로 적어줘.", audio_file]
                 )
                 audio_prompt = response.text
